@@ -1,87 +1,107 @@
-# coding: utf-8
-from sqlalchemy import Column, ForeignKey, String, Table
-from sqlalchemy.dialects.mysql import INTEGER
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from app.db import db, BaseModelMixin
 
-Base = declarative_base()
-metadata = Base.metadata
-
-
-class App(Base):
+class App(db.Model, BaseModelMixin):
     __tablename__ = 'app'
 
-    idapp = Column(INTEGER(11), primary_key=True)
-    name = Column(String(45))
-    apikey = Column(String(45))
+    idapp = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(45))
+    apikey = db.Column(db.String(45))
 
 
-class Level(Base):
+    def __init__(self, name, apikey):
+        self.name = name
+        self.apikey = apikey
+
+    
+
+
+
+class Level(db.Model, BaseModelMixin):
     __tablename__ = 'level'
 
-    idlevel = Column(INTEGER(11), primary_key=True)
-    type = Column(String(45), nullable=False)
-    name = Column(String(45))
-    data = Column(String(45))
-    label = Column(String(45))
+    idlevel = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(45), nullable=False)
+    name = db.Column(db.String(45))
+    data = db.Column(db.String(45))
+    label = db.Column(db.String(45))
 
 
-class System(Base):
+    def __init__(self, type, name, data, label):
+        self.type = type
+        self.name = name
+        self.data = data
+        self.label = label
+
+
+    def __repr__(self):
+        return f'<Level(name={self.name})>'
+
+
+    def __str__(self):
+        return f'{self.name}'
+
+
+    @staticmethod
+    def get_all():
+        return Level.query.all()
+
+
+class System(db.Model, BaseModelMixin):
     __tablename__ = 'system'
 
-    idsystem = Column(INTEGER(11), primary_key=True)
-    name = Column(String(45))
+    idsystem = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(45))
 
 
-class User(Base):
+class User(db.Model, BaseModelMixin):
     __tablename__ = 'user'
 
-    iduser = Column(INTEGER(11), primary_key=True)
+    iduser = db.Column(db.Integer, primary_key=True)
 
 
-class AppSection(Base):
+class AppSection(db.Model, BaseModelMixin):
     __tablename__ = 'app_section'
 
-    idapp_section = Column(INTEGER(11), primary_key=True)
-    app_idapp = Column(ForeignKey('app.idapp'), nullable=False, index=True)
-    name = Column(String(45))
-    data = Column(String(45))
+    idapp_section = db.Column(db.Integer, primary_key=True)
+    app_idapp = db.Column(db.ForeignKey('app.idapp'), nullable=False, index=True)
+    name = db.Column(db.String(45))
+    data = db.Column(db.String(45))
 
-    app = relationship('App')
+    app = db.relationship('App')
 
 
-class Group(Base):
+class Group(db.Model, BaseModelMixin):
     __tablename__ = 'group'
 
-    idgroup = Column(INTEGER(11), primary_key=True)
-    name = Column(String(45))
-    user_iduser = Column(ForeignKey('user.iduser'), nullable=False, index=True)
+    idgroup = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(45))
+    user_iduser = db.Column(db.ForeignKey('user.iduser'), nullable=False, index=True)
 
-    user = relationship('User')
+    user = db.relationship('User')
 
 
-t_user__system = Table(
-    'user__system', metadata,
-    Column('user_iduser', ForeignKey('user.iduser'), nullable=False, index=True),
-    Column('system_idsystem', ForeignKey('system.idsystem'), nullable=False, index=True),
-    Column('user', String(45))
+t_user__system = db.Table(
+    'user__system', db.metadata,
+    db.Column('user_iduser', db.ForeignKey('user.iduser'), nullable=False, index=True),
+    db.Column('system_idsystem', db.ForeignKey('system.idsystem'), nullable=False, index=True),
+    db.Column('user', db.String(45))
 )
 
 
-class Acces(Base):
+class Acces(db.Model, BaseModelMixin):
     __tablename__ = 'access'
 
-    idaccess = Column(INTEGER(11), primary_key=True)
-    group_idgroup = Column(ForeignKey('group.idgroup'), nullable=False, index=True)
-    app_idapp = Column(ForeignKey('app.idapp'), nullable=False, index=True)
+    idaccess = db.Column(db.Integer, primary_key=True)
+    group_idgroup = db.Column(db.ForeignKey('group.idgroup'), nullable=False, index=True)
+    app_idapp = db.Column(db.ForeignKey('app.idapp'), nullable=False, index=True)
 
-    app = relationship('App')
-    group = relationship('Group')
-    level = relationship('Level', secondary='level_access')
+    app = db.relationship('App')
+    group = db.relationship('Group')
+    level = db.relationship('Level', secondary='level_access')
 
 
-t_level_access = Table(
-    'level_access', metadata,
-    Column('access_idaccess', ForeignKey('access.idaccess'), primary_key=True, nullable=False, index=True),
-    Column('level_idlevel', ForeignKey('level.idlevel'), primary_key=True, nullable=False, index=True)
+t_level_access = db.Table(
+    'level_access', db.metadata,
+    db.Column('access_idaccess', db.ForeignKey('access.idaccess'), primary_key=True, nullable=False, index=True),
+    db.Column('level_idlevel', db.ForeignKey('level.idlevel'), primary_key=True, nullable=False, index=True)
 )

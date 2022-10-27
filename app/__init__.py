@@ -4,6 +4,7 @@ from flask_restful import Api
 from app.common.error_handling import ObjectNotFound, AppErrorBaseClass
 from app.db import db
 from app.levels.api_v1_0.resources import levels_v1_0_bp
+from app.applications.api_v1_0.resources import app_v1_0_bp
 from .ext import ma
 
 
@@ -24,6 +25,7 @@ def create_app(settings_module):
 
     #Registrar los blueprints
     app.register_blueprint(levels_v1_0_bp)
+    app.register_blueprint(app_v1_0_bp)
 
     #Registrar manejadores de error
     #register_error_handlers(app)
