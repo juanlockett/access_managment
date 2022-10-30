@@ -1,6 +1,8 @@
 from flask import Flask, jsonify
 from flask_restful import Api
 
+from flask_cors import CORS
+
 from app.common.error_handling import ObjectNotFound, AppErrorBaseClass
 from app.db import db
 from app.levels.api_v1_0.resources import levels_v1_0_bp
@@ -12,6 +14,8 @@ from .ext import ma
 def create_app(settings_module):
     app = Flask(__name__)
     app.config.from_object(settings_module)
+
+    CORS(app)
 
     #Inicializa las extenciones
     db.init_app(app)
