@@ -1,5 +1,5 @@
 API para gestionar acceso a un conjunto de aplicaciones y sus distintas partes. Permitiendo establecer distintos niveles de acceso por usuario-aplicación, independientemente de la parte de la aplicación. Permitiendo así que dos usuarios puedan acceder a la misma sección de una aplicación, pero con restricciones a la información según el nivel otorgado.
-> Esta API se encuentra en desarrollo actualmente.
+> Esta API se encuentra actualmente en desarrollo.
 
 #### Ejecución de desarrollo
 
