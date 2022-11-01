@@ -7,7 +7,7 @@ from app.common.error_handling import ObjectNotFound, AppErrorBaseClass
 from app.db import db
 from app.levels.api_v1_0.resources import levels_v1_0_bp
 from app.applications.api_v1_0.resources import app_v1_0_bp
-from .ext import ma
+from .ext import ma, migrate
 
 
 
@@ -20,6 +20,7 @@ def create_app(settings_module):
     #Inicializa las extenciones
     db.init_app(app)
     ma.init_app(app)
+    migrate.init_app(app, db)
 
     #capturar errores
     Api(app, catch_all_404s=True)

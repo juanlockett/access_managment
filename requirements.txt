@@ -2,5 +2,6 @@ flask-restful
 flask_sqlalchemy
 flask_marshmallow
 marshmallow-sqlalchemy
-pymysql
+psycopg2-binary
 flask-cors
+Flask-Migrate
