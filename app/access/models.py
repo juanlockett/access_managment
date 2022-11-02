@@ -1,7 +1,9 @@
 from app.db import db, BaseModelMixin
+from app.applications.models import App, AppSection
+#from app.users.models import User <-- debe estar construído el modelo de usuario
 
 
-class Acces(db.Model, BaseModelMixin):
+class Access(db.Model, BaseModelMixin):
     __tablename__ = 'access'
 
     idaccess = db.Column(db.Integer, primary_key=True)
