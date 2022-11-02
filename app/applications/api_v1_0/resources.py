@@ -27,7 +27,7 @@ class AppListResource(Resource):
         app_dict = app_schema.load(data)
         app = App(
                 name=app_dict['name'],
-                apikey=app_dict['apikey']
+                description=app_dict['description']
         )
         for appSection in app_dict['sections']: #check name in te object
             app.section.append(AppSection(appSection['name'], appSection['data']))

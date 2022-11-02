@@ -6,7 +6,7 @@ class AppSchema(ma.Schema):
 
     idapp = fields.Integer(dump_only=True)
     name = fields.String()
-    apikey = fields.String()
+    description = fields.String()
 
 
 class AppSectionSchema(ma.Schema):

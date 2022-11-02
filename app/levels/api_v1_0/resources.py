@@ -42,7 +42,7 @@ class LevelResource(Resource):
     def get(self, level_id):
         level = Level.get_by_id(level_id)
         if level is None:
-            raise ObjectNotFound('El nivel no existe')
+            raise ObjectNotFound('Level id{level_id} not found')
             
         resp = level_schema.dump(level)
 

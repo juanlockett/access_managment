@@ -3,5 +3,6 @@ flask_sqlalchemy
 flask_marshmallow
 marshmallow-sqlalchemy
 psycopg2-binary
+pymysql
 flask-cors
 Flask-Migrate
