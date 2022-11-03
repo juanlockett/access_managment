@@ -6,3 +6,4 @@ psycopg2-binary
 pymysql
 flask-cors
 Flask-Migrate
+Flask-Testing
