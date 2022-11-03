@@ -5,7 +5,7 @@ class App(db.Model, BaseModelMixin):
 
     idapp = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(45))
-    apikey = db.Column(db.String(45))
+
     section = db.relationship('AppSection', back_populates='app', lazy=False, cascade='all, delete-orphan')
 
 
