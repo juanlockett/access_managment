@@ -1,5 +1,12 @@
 +access_managment
 |_+ app
+  |_+ access
+    |_+ api_v1_0
+      |_ __init__.py
+      |_ resources.py
+      |_ schemas.py
+    |_ __init__
+    |_ models.py
   |_+ common
     |_ __init__.py
     |_ error_handling.py   # Utilidades para el manejo de errores
