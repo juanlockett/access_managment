@@ -14,6 +14,10 @@ class Access(db.Model, BaseModelMixin):
     user = db.relationship('User')
     level = db.relationship('Level', secondary='level_access')
 
+    @staticmethod
+    def get_by_user(self, user_id):
+        #Access.self.query.filter_by_user(Access.query.user(user_id).join)
+        pass
 
 t_level_access = db.Table(
     'level_access', db.metadata,

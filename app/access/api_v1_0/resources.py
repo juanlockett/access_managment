@@ -34,14 +34,20 @@ class AccessResource(Resource):
     def get(self, access_id):
         access = Access.get_by_id(access_id)
         if access is None:
-            raise ObjectNotFound('Access id{access_id} not found')
+            raise ObjectNotFound(f'Access id{access_id} not found')
 
         resp = access_schema.dump(access)
 
         return resp
 
 
+class AccessUserResource(Resource):
+    def get(self, user_id):
+        access = Access.simple_filter(user_id)
+
+
 
 
 api.add_resource(AccessListResource, '/api/v1.0/access/', endpoint='access_list_resource')
 api.add_resource(AccessResource, '/api/v1.0/access/<int:access_id>', endpoint='access_resource')
+api.add_resource(LevelAccessApp, '/api/v1.0/levelAccessApp/<int:user_id>', endpoint='level_access_app')

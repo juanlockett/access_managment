@@ -17,7 +17,7 @@ export APP_SETTINGS_MODULE=config.default
 
 set FLASK_APP=entrypoint:app
 
-set FLASK_ENV=development
+set FLASK_DEBUG=True
 
 set APP_SETTINGS_MODULE=config.default
 
