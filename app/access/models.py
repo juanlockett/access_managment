@@ -1,6 +1,15 @@
 from app.db import db, BaseModelMixin
 from app.applications.models import App, AppSection
-#from app.users.models import User <-- debe estar construído el modelo de usuario
+from app.users.models import User
+from app.levels.models import Level
+
+
+t_level_access = db.Table(
+    'level_access', db.metadata,
+    db.Column('access_idaccess', db.ForeignKey('access.idaccess'), primary_key=True, nullable=False, index=True),
+    db.Column('level_idlevel', db.ForeignKey('level.idlevel'), primary_key=True, nullable=False, index=True)
+)
+
 
 
 class Access(db.Model, BaseModelMixin):
@@ -10,17 +19,48 @@ class Access(db.Model, BaseModelMixin):
     user_iduser = db.Column(db.ForeignKey('user.iduser'), nullable=False, index=True)
     app_section_idapp_section = db.Column(db.ForeignKey('app_section.idapp_section'), nullable=False, index=True)
 
-    app_section = db.relationship('AppSection')
-    user = db.relationship('User')
-    level = db.relationship('Level', secondary='level_access')
+    app_section = db.relationship("AppSection", foreign_keys="[Access.app_section_idapp_section]")
+    user = db.relationship("User", foreign_keys="[Access.user_iduser]")
+    level = db.relationship("Level", secondary=t_level_access, backref='access_idaccess')
+
+
+    def __init__(self, user_iduser, app_sectio_idapp_section):
+        self.app_sectio_idapp_section = app_sectio_idapp_section
+        self.user_iduser = user_iduser
+
+
+    def __repr__(self):
+        return f'<Access(idaccess={self.idaccess}, app_section={self.app_section}, user={self.user})>'
+
+
+    def __str__(self):
+        return f'<Access(idaccess={self.idaccess}, app_section={self.app_section}, user={self.user})>'
 
     @staticmethod
-    def get_by_user(self, user_id):
-        #Access.self.query.filter_by_user(Access.query.user(user_id).join)
-        pass
+    def get_autorization_access():
+        
+        return db.Query(Access).join(AppSection, Access.app_section_idapp_section==AppSection.idapp_section).all()
 
-t_level_access = db.Table(
-    'level_access', db.metadata,
-    db.Column('access_idaccess', db.ForeignKey('access.idaccess'), primary_key=True, nullable=False, index=True),
-    db.Column('level_idlevel', db.ForeignKey('level.idlevel'), primary_key=True, nullable=False, index=True)
-)
+
+    @staticmethod
+    def getAutorizationAccess_byUserId(userid):
+        ls_obj_access = Access.simple_filter(user_iduser=userid)
+        ls_autorization = []
+        for obj_access in ls_obj_access:
+            autorization = obj_access
+            obj_user = User.get_by_id(obj_access.user_iduser)
+            obj_appSection = AppSection.get_by_id(obj_access.app_section_idapp_section)
+            obj_app = App.get_by_id(obj_appSection.app_idapp)
+            obj_level = []
+            for lev in obj_access.level:
+                obj_level.append(Level.get_by_id(lev.idlevel))
+            autorization.user = obj_user
+            autorization.app_section = obj_appSection
+            autorization.app_section.app = obj_app
+            autorization.level = obj_level
+
+            print(autorization)
+            ls_autorization.append(autorization.app_section.name)
+
+        return ls_autorization
+
