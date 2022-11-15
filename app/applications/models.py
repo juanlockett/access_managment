@@ -31,7 +31,7 @@ class AppSection(db.Model, BaseModelMixin):
     name = db.Column(db.String(45))
     data = db.Column(db.String(45))
 
-    app = db.relationship('App')
+    app = db.relationship('App', foreign_keys="[AppSection.app_idapp]")
 
 
     def __init__(self, name, data):
@@ -40,8 +40,8 @@ class AppSection(db.Model, BaseModelMixin):
 
 
     def __repr__(self):
-        return f'<AppSection(name={self.name})>'
+        return f'<AppSection(id={self.idapp_section}, idapp={self.app_idapp}, name={self.name}, data={self.data})>'
 
 
     def __str__(self):
-        return f'{self.name}'
+        return f'<AppSection(id={self.idapp_section}, idapp={self.app_idapp}, name={self.name}, data={self.data})>'
