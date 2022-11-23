@@ -2,6 +2,7 @@ from app.db import db, BaseModelMixin
 from app.applications.models import App, AppSection
 from app.users.models import User
 from app.access.models import Access, t_level_access
+from app.levels.models import Level
 
 
 
@@ -66,14 +67,20 @@ class AbstractUser():
 class Autorization():
 
     app = []
+    levels = []
 
-    def __init__(self, iduser, apps=None):
+    def __init__(self, iduser, apps=None, levels=None):
 
         self.iduser = iduser
         if apps:
             self.app = self.app.append(apps)
         else:
             self.app = []
+
+        if levels:
+            self.levels = self.levels.append(levels)
+        else:
+            self.levels = []
 
 
     def __str__(self) -> str:
@@ -111,7 +118,8 @@ class Autorization():
             obj_abstr_app = AbstractApp(obj_app.idapp, obj_app.name, obj_abstr_app_section)
             obj_autorization.update_app(obj_abstr_app)
 
+        
+
+
         return obj_autorization
-
-
     

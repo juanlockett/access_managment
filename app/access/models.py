@@ -42,25 +42,3 @@ class Access(db.Model, BaseModelMixin):
         return db.Query(Access).join(AppSection, Access.app_section_idapp_section==AppSection.idapp_section).all()
 
 
-    @staticmethod
-    def getAutorizationAccess_byUserId(userid):
-        ls_obj_access = Access.simple_filter(user_iduser=userid)
-        ls_autorization = []
-        for obj_access in ls_obj_access:
-            autorization = obj_access
-            obj_user = User.get_by_id(obj_access.user_iduser)
-            obj_appSection = AppSection.get_by_id(obj_access.app_section_idapp_section)
-            obj_app = App.get_by_id(obj_appSection.app_idapp)
-            obj_level = []
-            for lev in obj_access.level:
-                obj_level.append(Level.get_by_id(lev.idlevel))
-            autorization.user = obj_user
-            autorization.app_section = obj_appSection
-            autorization.app_section.app = obj_app
-            autorization.level = obj_level
-
-            print(autorization)
-            ls_autorization.append(autorization.app_section.name)
-
-        return ls_autorization
-
