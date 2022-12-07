@@ -119,15 +119,5 @@ class Autorization():
             obj_abstr_app = AbstractApp(obj_app.idapp, obj_app.name, obj_abstr_app_section)
             obj_autorization.update_app(obj_abstr_app)
 
-        """
-        for obj_access in ls_obj_access:
-            print(f'obj_access: {obj_access}')
-            for idlevel in obj_access.level:
-                print(f'idlevel: {idlevel}')
-                obj_level = Level.get_by_id(idlevel)
-                print(f'niveles desde levels_by_id: {obj_level}')
-
-            print(f'niveles desde access: {obj_access.get_levels()}')
-        """
         return obj_autorization
     
