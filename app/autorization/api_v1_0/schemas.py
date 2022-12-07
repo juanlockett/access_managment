@@ -1,12 +1,15 @@
 from marshmallow import fields
 
+from app.levels.api_v1_0.schemas import LevelSchema
 from app.ext import ma
+
 
 
 class AbstractAppSectionSchema(ma.Schema):
     id = fields.Integer()
     name = fields.String()
     data = fields.String()
+    levels = fields.Nested(LevelSchema, many=True)
 
 
 

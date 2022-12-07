@@ -33,18 +33,19 @@ class AbstractApp():
 
 class AbstractAppSection():
 
-    def __init__(self, id, name, data):
+    def __init__(self, id, name, data, levels):
         self.id = id
         self.name = name
         self.data = data
+        self.levels = levels
 
     
     def __repr__(self) -> str:
-        return f'<AppSection(id={self.id}, name={self.name}, data={self.data})>'
+        return f'<AppSection(id={self.id}, name={self.name}, data={self.data}, levels={self.levels})>'
 
 
     def __str__(self) -> str:
-        return f'<AppSection(id={self.id}, name={self.name}, data={self.data})>'
+        return f'<AppSection(id={self.id}, name={self.name}, data={self.data}, levels={self.levels})>'
 
 
 class AbstractUser():
@@ -113,13 +114,20 @@ class Autorization():
         for obj_access in ls_obj_access:
 
             obj_app_section = AppSection.get_by_id(obj_access.app_section_idapp_section)
-            obj_abstr_app_section = AbstractAppSection(obj_app_section.idapp_section, obj_app_section.name, obj_app_section.data)
+            obj_abstr_app_section = AbstractAppSection(obj_app_section.idapp_section, obj_app_section.name, obj_app_section.data, obj_access.get_levels())
             obj_app = App.get_by_id(obj_app_section.app_idapp)
             obj_abstr_app = AbstractApp(obj_app.idapp, obj_app.name, obj_abstr_app_section)
             obj_autorization.update_app(obj_abstr_app)
 
-        
+        """
+        for obj_access in ls_obj_access:
+            print(f'obj_access: {obj_access}')
+            for idlevel in obj_access.level:
+                print(f'idlevel: {idlevel}')
+                obj_level = Level.get_by_id(idlevel)
+                print(f'niveles desde levels_by_id: {obj_level}')
 
-
+            print(f'niveles desde access: {obj_access.get_levels()}')
+        """
         return obj_autorization
     

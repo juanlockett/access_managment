@@ -1,7 +1,7 @@
 from app.db import db, BaseModelMixin
 from app.applications.models import App, AppSection
 from app.users.models import User
-from app.levels.models import Level
+#from app.levels.models import Level
 
 
 t_level_access = db.Table(
@@ -41,4 +41,5 @@ class Access(db.Model, BaseModelMixin):
         
         return db.Query(Access).join(AppSection, Access.app_section_idapp_section==AppSection.idapp_section).all()
 
-
+    def get_levels(self):
+        return self.level
