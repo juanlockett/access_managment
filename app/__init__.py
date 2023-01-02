@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_restful import Api
+from flask_jwt_extended import JWTManager
 
 from flask_cors import CORS
 
@@ -20,6 +21,10 @@ def create_app(settings_module):
     app.config.from_object(settings_module)
 
     CORS(app)
+
+    # Config JWT
+    #app.config["JWT_SECRET_KEY"]
+    jwt = JWTManager(app)
 
     #Inicializa las extenciones
     db.init_app(app)
