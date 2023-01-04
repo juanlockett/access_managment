@@ -1,5 +1,6 @@
 from flask_restful import Api, Resource
 from flask import Blueprint
+from flask_jwt_extended import jwt_required
 
 from app.common.error_handling import ObjectNotFound
 
@@ -15,9 +16,9 @@ level_schema = LevelSchema()
 api = Api(autorization_v1_0_bp)
 
 
-
 class AutorizationResource(Resource):
 
+    @jwt_required()
     def get(self, iduser):
         autorization = Autorization.get_by_id_user(iduser)
         if autorization is None:
