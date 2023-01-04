@@ -11,6 +11,7 @@ from app.levels.api_v1_0.resources import levels_v1_0_bp
 from app.applications.api_v1_0.resources import app_v1_0_bp
 from app.access.api_v1_0.resources import access_v1_0_bp
 from app.autorization.api_v1_0.resources import autorization_v1_0_bp
+from app.autentication.api_v1_0.resources import autentication_v1_0_bp
 
 from .ext import ma, migrate
 
@@ -20,7 +21,7 @@ def create_app(settings_module):
     app = Flask(__name__)
     app.config.from_object(settings_module)
 
-    CORS(app)
+    CORS(app, resources={ r'/*': { 'origins': '*', 'methods': ['POST', 'GET', 'PUT', 'DELETE', ]}})
 
     # Config JWT
     #app.config["JWT_SECRET_KEY"]
@@ -42,9 +43,10 @@ def create_app(settings_module):
     app.register_blueprint(app_v1_0_bp)
     app.register_blueprint(access_v1_0_bp)
     app.register_blueprint(autorization_v1_0_bp)
+    app.register_blueprint(autentication_v1_0_bp)
 
     #Registrar manejadores de error
-    #register_error_handlers(app)
+    register_error_handlers(app)
 
     
     return app
