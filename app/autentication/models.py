@@ -19,6 +19,7 @@ class Autentication(db.Model, BaseModelMixin):
     def __str__(self):
         return f'<Autentication(id={self.idpassword}, user={self.user}, user_iduser={self.user_iduser})>'
 
+
     @staticmethod
     def get_by_credentials(username, password):
         return Autentication().query.filter_by(username=username, password=password).first()

@@ -21,7 +21,7 @@ api=Api(autentication_v1_0_bp)
 class AutenticationResource(Resource):
 
     def get(self):
-        pass
+        return 405
 
     def post(self):
         data = request.get_json()
