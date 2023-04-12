@@ -55,7 +55,7 @@ def create_app(settings_module):
 def register_error_handlers(app):
     @app.errorhandler(Exception)
     def handle_exception_error(e):
-        return jsonify({'msg': 'Internal server error'}), 500
+        return jsonify({'msg': 'Internal server error', 'description': e}), 500
 
     @app.errorhandler(405)
     def handle_405_error(e):
