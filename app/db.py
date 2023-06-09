@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-import pymysql
-#import psycopg2
+#import pymysql
+import psycopg2
 
 db = SQLAlchemy()
 
