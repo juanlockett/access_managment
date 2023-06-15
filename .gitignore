@@ -167,4 +167,5 @@ migrations
 app/config.py
 config/development.py
 config/*
+config/postgres.py
 app/config.py.example
