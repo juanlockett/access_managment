@@ -22,21 +22,6 @@ class AppListResource(Resource):
 
         return result
 
-    def post(self):
-        data = request.get_json()
-        app_dict = app_schema.load(data)
-        app = App(
-                name=app_dict['name'],
-                description=app_dict['description']
-        )
-        for appSection in app_dict['sections']: #check name in te object
-            app.section.append(AppSection(appSection['name'], appSection['data']))
-
-        app.save()
-        resp = app_schema.dump(app)
-
-        return resp, 201
-
 
 class AppResource(Resource):
     
@@ -48,11 +33,27 @@ class AppResource(Resource):
         resp = app_schema.dump(app)
 
         return resp
+    
+    def post(self):
+        data = request.get_json()
+        app_dict = app_schema.load(data)
+        app = App(
+            name=app_dict['name'],
+        )
+
+        app.save()
+        resp = app_schema.dump(app)
+
+        return resp, 201
 
 
 
 class AppSectionListResource(Resource):
-    pass
+    def get(self):
+        appSections = AppSection.get_all()
+        result = appSection_schema(appSections, many=True)
+
+        return result
 
 
 
@@ -65,7 +66,7 @@ class AppSectionResource(Resource):
         return result
 
 
-    def post(self):
+    def post(self, app_id):
         data = request.get_json()
         appSection_dict = appSection_schema.load(data)
         appSection = AppSection(
@@ -81,4 +82,5 @@ class AppSectionResource(Resource):
 
 
 api.add_resource(AppListResource, '/api/v1.0/apps/', endpoint='app_list_resource')
-api.add_resource(AppResource, '/api/v1.0/apps/<int:app_id>', endpoint='app_resource')
+api.add_resource(AppResource, '/api/v1.0/app/<int:app_id>', '/api/v1.0/app/', endpoint='app_resource')
+api.add_resource(AppSectionResource, '/api/v1.0/appsection/<int:app_id>', '/api/v1.0/appsection/', endpoint='app__section_resource')

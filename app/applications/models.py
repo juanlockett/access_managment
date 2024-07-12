@@ -9,9 +9,9 @@ class App(db.Model, BaseModelMixin):
     section = db.relationship('AppSection', back_populates='app', lazy=False, cascade='all, delete-orphan')
 
 
-    def __init__(self, name, apikey):
+    def __init__(self, name):
         self.name = name
-        self.apikey = apikey
+        
 
     
     def __repr__(self):

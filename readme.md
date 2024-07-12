@@ -6,12 +6,17 @@ API para gestionar acceso a un conjunto de aplicaciones y sus distintas partes. 
 ##### Variables de entorno
 
 ###### *On Linux*
+# In te proyect directori
+
+source venv/bin/activate
 
 export FLASK_APP=entrypoint:app
 
 export FLASK_DEBUG=True
 
-export APP_SETTINGS_MODULE=config.default
+export APP_SETTINGS_MODULE=config.postgres
+
+python3 -m flask run --host 0.0.0.0
 
 ###### *On windows*
 
